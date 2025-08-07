@@ -1,0 +1,146 @@
+{
+    "datasets": {
+        "fantasy": {
+            "canonical_cluster_threshold": 0,
+            "cluster_threshold": 0,
+            "has_conll": true,
+            "name": "fantasy",
+            "num_dev_docs": 20,
+            "num_test_docs": 20,
+            "num_train_docs": 171,
+            "targeted_eval": false
+        },
+        "litbank": {
+            "canonical_cluster_threshold": 0,
+            "cluster_threshold": 0,
+            "cross_val_split": 0,
+            "has_conll": true,
+            "name": "LitBank",
+            "num_dev_docs": 10,
+            "num_test_docs": 10,
+            "num_train_docs": 80,
+            "targeted_eval": false
+        }
+    },
+    "desc": "Major Entity Tracking",
+    "device": "cuda:0",
+    "infra": {
+        "is_local": true,
+        "work_dir": "./"
+    },
+    "keep_singletons": true,
+    "key": "lf_s_train_gen_5",
+    "log_vals": false,
+    "metrics": [
+        "MUC",
+        "Bcub",
+        "CEAFE"
+    ],
+    "model": {
+        "doc_encoder": {
+            "add_speaker_tokens": true,
+            "chunking": "independent",
+            "finetune": true,
+            "speaker_end": "[SPEAKER_END]",
+            "speaker_start": "[SPEAKER_START]",
+            "transformer": {
+                "max_encoder_segment_len": 4096,
+                "max_segment_len": 4096,
+                "model_size": "large",
+                "model_str": "allenai/longformer-large-4096",
+                "name": "longformer"
+            }
+        },
+        "memory": {
+            "batch_size": 64,
+            "emb_size": 20,
+            "entity_rep": "wt_avg",
+            "mem_type": {
+                "eval_max_ents": null,
+                "max_ents": null,
+                "name": "unbounded"
+            },
+            "mlp_depth": 1,
+            "mlp_size": 3000,
+            "num_embeds": 10,
+            "num_feats": 2,
+            "pivot": true,
+            "pseudo_dist": true,
+            "rep_pos": "learned",
+            "sim_func": "hadamard",
+            "thresh": 0.0,
+            "type": "static"
+        },
+        "mention_params": {
+            "emb_size": 20,
+            "ext_ment": false,
+            "ignore_non_gold": true,
+            "max_span_width": 20,
+            "ment_emb": "attn",
+            "ment_emb_to_size_factor": {
+                "attn": 3,
+                "endpoint": 2,
+                "max": 1
+            },
+            "mlp_depth": 1,
+            "mlp_size": 3000,
+            "top_span_ratio": 0.4,
+            "use_gold_ments": false,
+            "use_topk": false
+        },
+        "metadata_params": {
+            "default_genre": "nw",
+            "genres": [
+                "bc",
+                "bn",
+                "mz",
+                "nw",
+                "pt",
+                "tc",
+                "wb"
+            ],
+            "use_genre_feature": false
+        }
+    },
+    "optimizer": {
+        "fine_tune_lr": 1e-05,
+        "init_lr": 0.0003,
+        "lr_decay": "linear",
+        "max_gradient_norm": 1.0
+    },
+    "override_encoder": false,
+    "override_memory": false,
+    "paths": {
+        "base_data_dir": "${paths.resource_dir}/raw_data",
+        "base_model_dir": "${infra.work_dir}/../models",
+        "best_model_dir": ".//../models/met_joint_efbc65248a6aedce066a04a9f4f40084_lf_s_train_gen_5/best",
+        "best_model_path": "/home/kawshikcvit/coref_research/gpt-coref-met-a6/models/met_joint_efbc65248a6aedce066a04a9f4f40084_lf_s_train_gen_5/best/model.pth",
+        "conll_scorer": "${paths.resource_dir}/reference-coreference-scorers/scorer.pl",
+        "doc_encoder_dirname": "doc_encoder",
+        "model_dir": ".//../models/met_joint_efbc65248a6aedce066a04a9f4f40084_lf_s_train_gen_5",
+        "model_filename": "model.pth",
+        "model_name": null,
+        "model_name_prefix": "met_",
+        "model_path": "/home/kawshikcvit/coref_research/gpt-coref-met-a6/models/met_joint_efbc65248a6aedce066a04a9f4f40084_lf_s_train_gen_5/model.pth",
+        "resource_dir": "../data/"
+    },
+    "seed": 5,
+    "train": true,
+    "trainer": {
+        "dropout_rate": 0.3,
+        "eval_per_k_steps": null,
+        "eval_type": "full",
+        "generalise": true,
+        "label_smoothing_wt": 0.1,
+        "log_frequency": 500,
+        "max_evals": 25,
+        "max_training_segments": 1,
+        "ment_loss_incl": true,
+        "ment_loss_mode": "all",
+        "normalize_loss": false,
+        "num_training_steps": null,
+        "patience": 10,
+        "to_save_model": false
+    },
+    "use_wandb": true
+}
